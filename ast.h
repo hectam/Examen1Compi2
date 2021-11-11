@@ -9,12 +9,12 @@ using namespace std;
 
 class Expr;
 class InitDeclarator;
-class Declaration;
+class Variable;
 class Parameter;
 class Statement;
 typedef list<Expr *> InitializerElementList;
 typedef list<InitDeclarator *> InitDeclaratorList;
-typedef list<Declaration *> DeclarationList;
+
 typedef list<Parameter *> ParameterList;
 typedef list<Statement *> StatementList;
 
@@ -46,9 +46,20 @@ class BinaryExpr: public Expr {
 
 class AddExpr: public BinaryExpr{
     public:
-        AddExpr(Expr * expr1, Expr * expr2): BinaryExpr(expr1, expr2){}
+        AddExpr(Expr * expr1, Expr * expr2): BinaryExpr(expr1, expr2){evaluate();}
         int evaluate();
 };
+class MRelationExpr: public BinaryExpr{
+    public:
+        MRelationExpr(Expr * expr1, Expr * expr2): BinaryExpr(expr1, expr2){}
+        int evaluate();
+};
+class PRelationExpr: public BinaryExpr{
+    public:
+        PRelationExpr(Expr * expr1, Expr * expr2): BinaryExpr(expr1, expr2){}
+        int evaluate();
+};
+
 
 class SubExpr: public BinaryExpr{
     public:
@@ -77,5 +88,16 @@ class NumExpr: public Expr{
         int evaluate();
 };
 
+class Variable: public Expr{
+    public: 
+
+        Variable(const char * _ID, float _value){
+            this->ID = _ID;
+            this->value = _value;
+        }
+        const char * ID;
+        float value;
+
+};
 
 #endif
